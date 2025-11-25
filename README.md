@@ -1,60 +1,59 @@
-# Infra Sage
+# 🏗️ Infra Sage
 
-A Model Context Protocol (MCP) server for Terraform infrastructure-as-code management. Generate modules, validate configurations, plan changes, and detect drift.
+**AI-powered Terraform infrastructure management - generate modules, validate configs, plan changes, and detect drift**
 
-## Overview
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue?logo=typescript)](https://www.typescriptlang.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![MCP](https://img.shields.io/badge/MCP-Compatible-green)](https://github.com/anthropics/mcp)
+[![Node.js](https://img.shields.io/badge/Node.js-18+-339933?logo=node.js)](https://nodejs.org/)
+[![Terraform](https://img.shields.io/badge/Terraform-Compatible-7B42BC?logo=terraform)](https://www.terraform.io/)
 
-Infra Sage brings AI assistance to your Terraform workflows. Instead of manually writing boilerplate or running CLI commands, you can use natural language to:
+---
 
-- Generate complete Terraform module scaffolding
-- Validate your configurations before applying
-- Preview infrastructure changes
-- List and search resources in state
-- Detect configuration drift
+## 🤔 The Infrastructure Challenge
 
-### Why Use Infra Sage?
+**"Writing Terraform boilerplate is tedious and error-prone"**
 
-**Traditional workflow:**
+Every new module requires the same setup - provider blocks, variable definitions, output configurations. Then there's the constant need to validate, plan, and check for drift.
+
+- 📝 Repetitive module scaffolding
+- ✅ Validation before every change
+- 🔍 Planning and reviewing diffs
+- 🔄 Drift detection across environments
+
+**Infra Sage automates the tedious parts** - generate complete modules, validate configs, preview changes, and detect drift, all through natural language.
+
+---
+
+## ✨ Features
+
+| Feature | Description |
+|---------|-------------|
+| 🧱 **Module Generation** | Create complete Terraform modules with best practices baked in |
+| ✅ **Config Validation** | Syntax and semantic validation without leaving your editor |
+| 📋 **Change Planning** | Preview infrastructure changes before applying |
+| 📦 **Resource Listing** | Query resources in your Terraform state |
+| 🔍 **Drift Detection** | Compare actual infrastructure against your configuration |
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Node.js 18+
+- Terraform CLI installed
+- Claude Desktop
+
+### Installation
+
 ```bash
-mkdir -p modules/vpc
-touch modules/vpc/{main,variables,outputs}.tf
-# Manually write provider blocks, variable definitions, etc.
-terraform validate
-terraform plan
-```
-
-**With Infra Sage:**
-```
-"Generate an AWS VPC module with variables for region and cidr_block"
-"Validate my Terraform configuration"
-"Show me what changes will be applied"
-```
-
-## Features
-
-- **Module Generation** - Create complete Terraform modules with best practices baked in
-- **Configuration Validation** - Syntax and semantic validation without leaving your editor
-- **Change Planning** - Preview infrastructure changes before applying
-- **Resource Listing** - Query resources in your Terraform state
-- **Drift Detection** - Compare actual infrastructure against your configuration
-
-## Installation
-
-```bash
-# Clone the repository
 git clone https://github.com/consigcody94/infra-sage.git
 cd infra-sage
-
-# Install dependencies
 npm install
-
-# Build the project
 npm run build
 ```
 
-### Prerequisites
-
-For full functionality, you'll need Terraform installed:
+### Install Terraform
 
 ```bash
 # macOS
@@ -66,11 +65,15 @@ sudo apt-get install terraform
 # Or download from https://www.terraform.io/downloads
 ```
 
-## Configuration
+### Configure Claude Desktop
 
-### Claude Desktop Integration
+Add to your config file:
 
-Add to your `claude_desktop_config.json`:
+| Platform | Path |
+|----------|------|
+| macOS | `~/Library/Application Support/Claude/claude_desktop_config.json` |
+| Windows | `%APPDATA%\Claude\claude_desktop_config.json` |
+| Linux | `~/.config/Claude/claude_desktop_config.json` |
 
 ```json
 {
@@ -83,16 +86,64 @@ Add to your `claude_desktop_config.json`:
 }
 ```
 
-**Config file locations:**
-- macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
-- Windows: `%APPDATA%\Claude\claude_desktop_config.json`
-- Linux: `~/.config/Claude/claude_desktop_config.json`
+### Restart Claude Desktop
+Completely quit and reopen Claude Desktop to load the MCP server.
 
-### Working Directory
+---
 
-By default, Infra Sage operates in the current working directory. Most tools accept a `directory` parameter to specify a different location.
+## 💬 Usage Examples
 
-## Tools Reference
+### Generate a Module
+```
+"Generate an AWS VPC module with variables for region and cidr_block"
+→ Creates complete module with main.tf, variables.tf, outputs.tf, README.md
+
+"Create a Kubernetes deployment module with namespace and replicas variables"
+→ Scaffolds K8s module with provider config and best practices
+```
+
+### Validate Configuration
+```
+"Validate my Terraform configuration in ./infrastructure"
+→ Checks syntax, references, and provider requirements
+
+"Are there any errors in my staging config?"
+→ Returns detailed validation results with file locations
+```
+
+### Plan Changes
+```
+"Show me what changes will be applied to production"
+→ Runs terraform plan and summarizes additions, changes, deletions
+
+"Preview changes for the database module only"
+→ Targeted plan for specific resources
+```
+
+### Manage State
+```
+"List all AWS instances in my state"
+→ Filters and displays matching resources
+
+"Check for drift in production"
+→ Compares state against actual infrastructure
+```
+
+---
+
+## 🛠️ Available Tools
+
+| Tool | Description |
+|------|-------------|
+| `generate_module` | Create a complete Terraform module with best-practice structure |
+| `validate_config` | Validate Terraform configuration files for errors |
+| `plan_changes` | Run terraform plan to preview infrastructure changes |
+| `list_resources` | List all resources in Terraform state |
+| `check_drift` | Detect configuration drift between state and infrastructure |
+
+---
+
+## 📊 Tool Details
 
 ### generate_module
 
@@ -107,61 +158,14 @@ Generate a complete Terraform module with best-practice structure.
 | `variables` | array | No | Input variables for the module |
 | `outputs` | array | No | Output values from the module |
 
-**Variable object structure:**
+**Variable object:**
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | `name` | string | Yes | Variable name |
-| `type` | string | Yes | Terraform type (`string`, `number`, `bool`, `list(string)`, etc.) |
+| `type` | string | Yes | Terraform type (`string`, `number`, `list(string)`, etc.) |
 | `description` | string | No | Variable description |
 | `default` | string | No | Default value |
-
-**Output object structure:**
-
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `name` | string | Yes | Output name |
-| `value` | string | Yes | Output value expression |
-| `description` | string | No | Output description |
-
-**Example:**
-
-```json
-{
-  "moduleName": "vpc",
-  "provider": "aws",
-  "variables": [
-    {
-      "name": "vpc_cidr",
-      "type": "string",
-      "description": "CIDR block for the VPC",
-      "default": "10.0.0.0/16"
-    },
-    {
-      "name": "environment",
-      "type": "string",
-      "description": "Environment name"
-    },
-    {
-      "name": "availability_zones",
-      "type": "list(string)",
-      "description": "List of AZs to use"
-    }
-  ],
-  "outputs": [
-    {
-      "name": "vpc_id",
-      "value": "aws_vpc.main.id",
-      "description": "ID of the created VPC"
-    },
-    {
-      "name": "subnet_ids",
-      "value": "aws_subnet.private[*].id",
-      "description": "List of private subnet IDs"
-    }
-  ]
-}
-```
 
 **Generated files:**
 - `main.tf` - Main resource definitions with provider block
@@ -173,115 +177,69 @@ Generate a complete Terraform module with best-practice structure.
 
 Validate Terraform configuration files for syntax and semantic errors.
 
-**Parameters:**
-
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `directory` | string | No | Path to Terraform files (default: current directory) |
-
-**Example:**
-
-```json
-{
-  "directory": "./infrastructure/production"
-}
-```
-
-**Response includes:**
-- Validation status (success/failure)
-- List of errors with file locations
-- Warnings and recommendations
 
 ### plan_changes
 
 Run `terraform plan` to preview infrastructure changes.
 
-**Parameters:**
-
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `directory` | string | No | Path to Terraform files |
 | `varFile` | string | No | Path to `.tfvars` file |
-| `target` | string | No | Target specific resource (e.g., `aws_instance.web`) |
-
-**Example:**
-
-```json
-{
-  "directory": "./infrastructure/staging",
-  "varFile": "./environments/staging.tfvars",
-  "target": "module.database"
-}
-```
-
-**Response includes:**
-- Resources to be added
-- Resources to be changed
-- Resources to be destroyed
-- Full plan output
+| `target` | string | No | Target specific resource |
 
 ### list_resources
 
 List all resources in Terraform state.
-
-**Parameters:**
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `directory` | string | No | Path to Terraform files |
 | `filter` | string | No | Filter by resource type or name pattern |
 
-**Example - List all resources:**
-
-```json
-{
-  "directory": "./infrastructure"
-}
-```
-
-**Example - Filter by type:**
-
-```json
-{
-  "directory": "./infrastructure",
-  "filter": "aws_instance"
-}
-```
-
-**Example - Filter by name pattern:**
-
-```json
-{
-  "filter": "database"
-}
-```
-
 ### check_drift
 
 Detect configuration drift between state and actual infrastructure.
 
-**Parameters:**
-
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `directory` | string | No | Path to Terraform files |
-| `detailed` | boolean | No | Show detailed drift information (default: false) |
+| `detailed` | boolean | No | Show detailed drift information |
 
-**Example:**
+---
 
-```json
-{
-  "directory": "./infrastructure/production",
-  "detailed": true
-}
-```
+## 🏗️ Provider Templates
 
-**Response includes:**
-- Resources with drift detected
-- Specific attribute changes
-- Recommendations for remediation
+### AWS Module
+- AWS provider configuration
+- Default tags support
+- Region variable
+- Common AWS resource patterns
 
-## Workflow Examples
+### Azure Module
+- AzureRM provider configuration
+- Resource group integration
+- Location variable
+- Naming conventions
+
+### GCP Module
+- Google provider configuration
+- Project ID integration
+- Region/zone variables
+- Labels support
+
+### Kubernetes Module
+- Kubernetes provider configuration
+- Namespace support
+- Labels and annotations
+- Resource quotas
+
+---
+
+## 🎯 Workflow Examples
 
 ### Creating a New Module
 
@@ -292,9 +250,7 @@ Detect configuration drift between state and actual infrastructure.
 
 2. **Review generated files** in `./modules/api-gateway/`
 
-3. **Customize the main.tf** with your specific resource configurations
-
-4. **Validate the configuration:**
+3. **Validate the configuration:**
    ```
    validate_config with directory: "./modules/api-gateway"
    ```
@@ -316,97 +272,31 @@ Detect configuration drift between state and actual infrastructure.
    check_drift with directory: "./infrastructure", detailed: true
    ```
 
-### Investigating State
+---
 
-1. **List all resources:**
-   ```
-   list_resources
-   ```
+## 🔒 Security Notes
 
-2. **Find specific resource types:**
-   ```
-   list_resources with filter: "aws_lambda"
-   ```
+| Principle | Description |
+|-----------|-------------|
+| Read-only operations | Never commits or modifies infrastructure automatically |
+| No auto-apply | All destructive operations require manual `terraform apply` |
+| Workspace isolation | Supports multiple workspaces |
+| No credential storage | Uses your existing Terraform/cloud provider credentials |
 
-3. **Search by name:**
-   ```
-   list_resources with filter: "production"
-   ```
+---
 
-## Provider-Specific Templates
+## 🐛 Troubleshooting
 
-### AWS Module Template
+| Issue | Solution |
+|-------|----------|
+| "terraform not found" | Ensure Terraform is installed and in PATH: `which terraform` |
+| Validation fails | Run `terraform init` in target directory first |
+| Module path issues | Use absolute paths or ensure correct working directory |
+| State commands fail | Initialize backend: `terraform init` |
 
-Generated AWS modules include:
-- AWS provider configuration
-- Default tags support
-- Region variable
-- Common AWS resource patterns
+---
 
-### Azure Module Template
-
-Generated Azure modules include:
-- AzureRM provider configuration
-- Resource group integration
-- Location variable
-- Naming conventions
-
-### GCP Module Template
-
-Generated GCP modules include:
-- Google provider configuration
-- Project ID integration
-- Region/zone variables
-- Labels support
-
-### Kubernetes Module Template
-
-Generated Kubernetes modules include:
-- Kubernetes provider configuration
-- Namespace support
-- Labels and annotations
-- Resource quotas
-
-## Security Notes
-
-- **Read-only operations** - Never commits or modifies infrastructure automatically
-- **No auto-apply** - All destructive operations require manual `terraform apply`
-- **Workspace isolation** - Supports multiple workspaces
-- **No credential storage** - Uses your existing Terraform/cloud provider credentials
-
-## Requirements
-
-- Node.js 18 or higher
-- Terraform CLI (for plan, validate, and state operations)
-- Initialized Terraform workspace (run `terraform init` first)
-
-## Troubleshooting
-
-### "terraform not found"
-
-Ensure Terraform is installed and in your PATH:
-```bash
-which terraform
-terraform version
-```
-
-### Validation/Plan fails
-
-1. Run `terraform init` in the target directory first
-2. Ensure all required providers are configured
-3. Check for missing variable values
-
-### Module generation path issues
-
-The module is created relative to the server's working directory. Use absolute paths or ensure you're running from the expected location.
-
-### State commands fail
-
-1. Ensure you have a valid `terraform.tfstate` or remote backend configured
-2. Run `terraform init` to initialize the backend
-3. Check credentials for remote backends (S3, GCS, Azure Blob)
-
-## Best Practices
+## 📚 Best Practices
 
 1. **Always validate before planning** - Catch syntax errors early
 2. **Use variable files** - Keep environment configs separate
@@ -414,14 +304,34 @@ The module is created relative to the server's working directory. Use absolute p
 4. **Use modules** - Generated modules follow Terraform best practices
 5. **Review plans carefully** - AI assistance doesn't replace human review
 
-## License
+---
 
-MIT License - see [LICENSE](LICENSE) file for details.
+## 📋 Requirements
 
-## Contributing
+- Node.js 18 or higher
+- Terraform CLI (for plan, validate, and state operations)
+- Initialized Terraform workspace (`terraform init`)
+
+---
+
+## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-## Author
+---
 
-consigcody94
+## 📄 License
+
+MIT License - see [LICENSE](LICENSE) file for details.
+
+---
+
+## 👤 Author
+
+**consigcody94**
+
+---
+
+<p align="center">
+  <i>Infrastructure as code, powered by conversation.</i>
+</p>
